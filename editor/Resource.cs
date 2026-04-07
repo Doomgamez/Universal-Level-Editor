@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Drawing;
 namespace ULE.editor
 {
     public enum ResourceType
     {
-        Texture,
-        Sound
+        Texture
     }
 
     public class Resource
     {
-        public static List<Resource> Resources = new List<Resource>();
         public string Name { get; set; }
         public ResourceType Type { get; set; }
+        public Bitmap Texture { get; set; }
         public string Path { get; set; }
         public Resource(string name, ResourceType type, string path)
         {
@@ -24,5 +23,9 @@ namespace ULE.editor
             Type = type;
             Path = path;
         }
+    }
+    public static class ResourceClass
+    {
+        public static List<Resource> ResourceList = new List<Resource>();
     }
 } 

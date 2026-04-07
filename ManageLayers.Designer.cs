@@ -129,6 +129,7 @@
             Controls.Add(label1);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(newlayer);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "ManageLayers";
             ShowInTaskbar = false;

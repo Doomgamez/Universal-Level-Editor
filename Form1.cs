@@ -14,12 +14,17 @@ namespace ULE
         public static FSettings settings;
         public static Logger logger;
         public static ManageLayers managelayers;
+        public static FResources fresources;
         public Form1()
         {
+            InitializeComponent();
             settings = new FSettings();
             logger = new Logger();
             managelayers = new ManageLayers();
-            InitializeComponent();
+            fresources = new FResources();
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.WrapContents = false;
         }
 
         void InitSideBar()
@@ -302,7 +307,9 @@ namespace ULE
         private void Resources_Click(object sender, EventArgs e)
         {
             logger.Log("Resources Clicked");
-            throw new NotImplementedException();
+            fresources = new FResources();
+            fresources.Show();
+            fresources.Focus();
         }
 
         private void NewObject_Click(object sender, EventArgs e)
@@ -329,6 +336,7 @@ namespace ULE
         {
             logger.Log("Manage Layers Clicked");
             managelayers.Show();
+            managelayers.Focus();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
