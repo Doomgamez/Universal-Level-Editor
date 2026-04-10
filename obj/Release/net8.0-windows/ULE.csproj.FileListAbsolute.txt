@@ -18,3 +18,4 @@ C:\Users\shadowdev\source\repos\ULE\obj\Release\net8.0-windows\ULE.Logger.resour
 C:\Users\shadowdev\source\repos\ULE\obj\Release\net8.0-windows\ULE.FSettings.resources
 C:\Users\shadowdev\source\repos\ULE\obj\Release\net8.0-windows\ULE.ManageLayers.resources
 C:\Users\shadowdev\source\repos\ULE\obj\Release\net8.0-windows\ULE.FResources.resources
+C:\Users\shadowdev\source\repos\ULE\obj\Release\net8.0-windows\ULE.FMacros.resources

@@ -12,6 +12,7 @@ namespace ULE.editor
             public Layer selectedlayer;
             public bool debug = false;
             public bool previewmode = false;
+            public bool macrosenabled = false;
         }
 
         public static EditorSettings settings = new EditorSettings();

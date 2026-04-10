@@ -15,6 +15,7 @@ namespace ULE
         public static Logger logger;
         public static ManageLayers managelayers;
         public static FResources fresources;
+        public static FMacros macros;
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +23,7 @@ namespace ULE
             logger = new Logger();
             managelayers = new ManageLayers();
             fresources = new FResources();
+            macros = new FMacros();
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.WrapContents = false;
@@ -288,7 +290,8 @@ namespace ULE
         private void Macros_Click(object sender, EventArgs e)
         {
             logger.Log("Macros Clicked");
-            throw new NotImplementedException();
+            macros.Show();
+            macros.Focus();
         }
 
         private void FileOutput_Click(object sender, EventArgs e)
