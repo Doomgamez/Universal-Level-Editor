@@ -37,7 +37,7 @@ namespace ULE
                 path.Text = item.Path;
                 path.AutoSize = true;
                 path.Location = new Point(0, y * 30);
-                
+
                 Button deleteButton = new Button();
                 deleteButton.Text = "Remove";
                 deleteButton.AutoSize = true;
@@ -46,7 +46,6 @@ namespace ULE
                 {
                     ResourceClass.ResourceList.Remove(item);
                     item.Texture.Dispose();
-                    item.Texture = null;
                     UpdateList();
                 };
 
@@ -63,10 +62,22 @@ namespace ULE
                     });
                 };
 
+                Button SELECTbtn = new Button();
+                SELECTbtn.Text = "Select";
+                SELECTbtn.AutoSize = true;
+                SELECTbtn.Location = new Point(path.Width + Showbutton.Width, y * 30);
+                SELECTbtn.Click += (s, e) =>
+                {
+                    Resource res = new Resource(item.Name, item.Type, item.Path,item.Texture);
+                    EditorData.settings.selectedresource = res;
+                    Form1.logger.Log("Selected resource: " + res.Name);
+                };
+
                 flowLayoutPanel1.Controls.Add(path);
                 flowLayoutPanel1.SetFlowBreak(path, true);
                 flowLayoutPanel1.Controls.Add(deleteButton);
                 flowLayoutPanel1.Controls.Add(Showbutton);
+                flowLayoutPanel1.Controls.Add(SELECTbtn);
                 flowLayoutPanel1.SetFlowBreak(Showbutton, true);
                 y = y + 1;
             }
@@ -83,7 +94,7 @@ namespace ULE
                 try
                 {
                     bitmap = new Bitmap(openFileDialog.FileName);
-                    Resource res = new Resource(System.IO.Path.GetFileNameWithoutExtension(openFileDialog.FileName), ResourceType.Texture, openFileDialog.FileName);
+                    Resource res = new Resource(System.IO.Path.GetFileNameWithoutExtension(openFileDialog.FileName), ResourceType.Texture, openFileDialog.FileName,bitmap);
                     res.Texture = bitmap;
                     ResourceClass.ResourceList.Add(res);
                 }
@@ -94,6 +105,11 @@ namespace ULE
                 }
                 UpdateList();
             }
+        }
+
+        private void FResources_Load(object sender, EventArgs e)
+        {
+            UpdateList();
         }
     }
 }

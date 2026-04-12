@@ -62,6 +62,7 @@
             Name = "FResources";
             Text = "Resources";
             FormClosing += FResources_FormClosing;
+            Load += FResources_Load;
             ResumeLayout(false);
         }
 

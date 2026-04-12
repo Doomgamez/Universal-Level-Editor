@@ -17,11 +17,12 @@ namespace ULE.editor
         public ResourceType Type { get; set; }
         public Bitmap Texture { get; set; }
         public string Path { get; set; }
-        public Resource(string name, ResourceType type, string path)
+        public Resource(string name, ResourceType type, string path,Bitmap Texture)
         {
-            Name = name;
-            Type = type;
-            Path = path;
+            this.Name = name;
+            this.Type = type;
+            this.Path = path;
+            this.Texture = Texture;
         }
     }
     public static class ResourceClass

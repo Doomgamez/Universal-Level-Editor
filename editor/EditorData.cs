@@ -8,8 +8,9 @@ namespace ULE.editor
         public class EditorSettings
         {
             public bool showgrid = true;
-            public bool snaptoGrid = true;
+            public bool snaptoGrid = false;
             public Layer selectedlayer;
+            public Resource selectedresource;
             public bool debug = false;
             public bool previewmode = false;
             public bool macrosenabled = false;

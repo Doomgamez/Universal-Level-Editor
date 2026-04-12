@@ -44,6 +44,9 @@
             checkBox1 = new CheckBox();
             checkBox2 = new CheckBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            checkBox3 = new CheckBox();
+            timer4 = new System.Windows.Forms.Timer(components);
+            checkBox4 = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -56,6 +59,8 @@
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             pictureBox1.Paint += pictureBox1_Paint;
+            pictureBox1.MouseDown += pictureBox1_MouseDown;
+            pictureBox1.MouseMove += pictureBox1_MouseMove;
             // 
             // timer1
             // 
@@ -153,7 +158,6 @@
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 9;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            comboBox1.Enter += comboBox1_Enter;
             // 
             // checkBox1
             // 
@@ -186,11 +190,40 @@
             flowLayoutPanel1.Size = new Size(306, 866);
             flowLayoutPanel1.TabIndex = 12;
             // 
+            // checkBox3
+            // 
+            checkBox3.AutoSize = true;
+            checkBox3.Location = new Point(678, 779);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new Size(48, 19);
+            checkBox3.TabIndex = 13;
+            checkBox3.Text = "Grid";
+            checkBox3.UseVisualStyleBackColor = true;
+            checkBox3.CheckedChanged += checkBox3_CheckedChanged;
+            // 
+            // timer4
+            // 
+            timer4.Enabled = true;
+            timer4.Interval = 2500;
+            timer4.Tick += timer4_Tick;
+            // 
+            // checkBox4
+            // 
+            checkBox4.AutoSize = true;
+            checkBox4.Location = new Point(678, 804);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new Size(51, 19);
+            checkBox4.TabIndex = 14;
+            checkBox4.Text = "Drag";
+            checkBox4.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1584, 861);
+            Controls.Add(checkBox4);
+            Controls.Add(checkBox3);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(checkBox2);
             Controls.Add(checkBox1);
@@ -230,5 +263,8 @@
         private CheckBox checkBox1;
         private CheckBox checkBox2;
         private FlowLayoutPanel flowLayoutPanel1;
+        private CheckBox checkBox3;
+        private System.Windows.Forms.Timer timer4;
+        private CheckBox checkBox4;
     }
 }
