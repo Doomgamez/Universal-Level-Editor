@@ -25,7 +25,7 @@ namespace ULE.editor
             }
         }
     }
-    internal class Layers
+    public class Layers
     {
         public static List<Layer> LayerList = new List<Layer>();
     }

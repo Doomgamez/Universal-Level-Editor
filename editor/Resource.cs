@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using Newtonsoft.Json;
 namespace ULE.editor
 {
     public enum ResourceType
@@ -15,6 +16,7 @@ namespace ULE.editor
     {
         public string Name { get; set; }
         public ResourceType Type { get; set; }
+        [JsonIgnore]
         public Bitmap Texture { get; set; }
         public string Path { get; set; }
         public Resource(string name, ResourceType type, string path,Bitmap Texture)

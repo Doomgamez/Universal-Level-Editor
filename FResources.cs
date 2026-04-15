@@ -94,7 +94,8 @@ namespace ULE
                 try
                 {
                     bitmap = new Bitmap(openFileDialog.FileName);
-                    Resource res = new Resource(System.IO.Path.GetFileNameWithoutExtension(openFileDialog.FileName), ResourceType.Texture, openFileDialog.FileName,bitmap);
+                    File.Copy(openFileDialog.FileName, Path.Combine(Consts.GetProjFolder(),Path.GetFileName(openFileDialog.FileName))); //fucking proj folder :)
+                    Resource res = new Resource(Path.Combine(Consts.GetProjFolder(), Path.GetFileName(openFileDialog.FileName)), ResourceType.Texture, openFileDialog.FileName,bitmap);
                     res.Texture = bitmap;
                     ResourceClass.ResourceList.Add(res);
                 }

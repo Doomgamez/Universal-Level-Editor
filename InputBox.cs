@@ -13,6 +13,7 @@ namespace ULE
     public partial class InputBox : Form
     {
         public string InputText { get; set; }
+        bool a = false;
         public InputBox(string InputTitle, string InputLabel)
         {
             InitializeComponent();
@@ -22,9 +23,19 @@ namespace ULE
 
         private void button1_Click(object sender, EventArgs e)
         {
+            a = true;
             InputText = this.richTextBox1.Text;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void InputBox_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!a)
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Hide();
+            }
         }
     }
 }

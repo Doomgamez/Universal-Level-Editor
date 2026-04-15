@@ -14,6 +14,7 @@ namespace ULE.editor
             public bool debug = false;
             public bool previewmode = false;
             public bool macrosenabled = false;
+            public string projectname = "Untitled";
         }
 
         public static EditorSettings settings = new EditorSettings();

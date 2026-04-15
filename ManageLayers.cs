@@ -106,11 +106,12 @@ namespace ULE
         {
             InputBox inputBox = new InputBox("Grid Size", "Enter the grid size for the selected layer");
             inputBox.ShowDialog();
-
+            if (inputBox.DialogResult != DialogResult.OK) { return; }
             if (int.TryParse(inputBox.InputText, out int result))
             {
                 gridsize = result;
             }
+            inputBox.Dispose();
             UpdateData();
             Form1.logger.Log("Grid Size updated");
         }
@@ -119,11 +120,12 @@ namespace ULE
         {
             InputBox inputBox = new InputBox("Zlayer", "Enter the Zlayer for the selected layer");
             inputBox.ShowDialog();
-
+            if (inputBox.DialogResult != DialogResult.OK) { return; }
             if (int.TryParse(inputBox.InputText, out int result))
             {
                 zlayer = result;
             }
+            inputBox.Dispose();
             UpdateData();
             Form1.logger.Log("Zlayer updated");
         }

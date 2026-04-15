@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "3K3/u28jJ+A=",
+  "dgSpecHash": "ZyYgGKfd3ss=",
   "success": true,
   "projectFilePath": "C:\\Users\\shadowdev\\source\\repos\\ULE\\ULE.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\shadowdev\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
+  ],
   "logs": []
 }

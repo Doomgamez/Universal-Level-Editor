@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ULE.utils
 {
-    internal class specialobjectenums
+    public class specialobjectenums
     {
         public class SpecialClass
         {

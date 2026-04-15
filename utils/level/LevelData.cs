@@ -2,52 +2,51 @@
 using static ULE.utils.Math;
 using static ULE.utils.specialobjectenums;
 
-namespace ULE.utils.level
+public class LevelData
 {
-    internal class LevelData
+    public static LevelData current = new LevelData();
+    public static uint version { get; set; }
+    public static string loadedpath { get; set; }
+    public Level level { get; set; } = new Level();
+
+    public class Gridobj
     {
-        public static uint version;
-        public static string loadedpath;
-        public static Level level = new Level();
-        public class Gridobj
-        {
-            public int layer = 0;
-            public Vector2I position = new Vector2I(0, 0);
-            public Vector2I size = new Vector2I(0, 0);
-            public int objtype;
-            public SpecialClass metadata;
-            public Resource resource;
-        }
-        public class Object
-        {
-            public int layer = 0;
-            public Vector2 position = new Vector2(0, 0);
-            public Vector2 size = new Vector2(0, 0);
-            public int objtype;
-            public SpecialClass metadata;
-            public Resource resource;
-        }
-        public class Level
-        {
-            public List<Gridobj> Grid = new List<Gridobj>();
-            public List<Object> Objarr = new List<Object>();
-            public Level LoadLevel(string path)
-            {
-                throw new NotImplementedException();
-                return level;
-            }
+        public int layer { get; set; } = 0;
+        public Vector2I position { get; set; } = new Vector2I(0, 0);
+        public Vector2I size { get; set; } = new Vector2I(0, 0);
+        public int objtype { get; set; }
+        public SpecialClass metadata { get; set; }
+        public Resource resource { get; set; }
+    }
 
-            public Level SaveLevel(string path)
-            {
-                throw new NotImplementedException();
-                return level;
-            }
+    public class Object
+    {
+        public int layer { get; set; } = 0;
+        public Vector2 position { get; set; } = new Vector2(0, 0);
+        public Vector2 size { get; set; } = new Vector2(0, 0);
+        public int objtype { get; set; }
+        public SpecialClass metadata { get; set; }
+        public Resource resource { get; set; }
+    }
 
-            public Level ExportLevel(string path)
-            {
-                throw new NotImplementedException();
-                return level;
-            }
-        }
+    public class Level
+    {
+        public List<Gridobj> Grid { get; set; } = new List<Gridobj>();
+        public List<Object> Objarr { get; set; } = new List<Object>();
+    }
+
+    public static void applyleveldata(LevelData lvl)
+    {
+        if (lvl?.level == null) return;
+
+        current.level = lvl.level;
+    }
+
+    public static LevelData getleveldata()
+    {
+        return new LevelData
+        {
+            level = current.level
+        };
     }
 }

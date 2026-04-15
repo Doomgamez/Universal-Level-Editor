@@ -1,6 +1,6 @@
 ﻿namespace ULE
 {
-    partial class InputBox
+    partial class Loader
     {
         /// <summary>
         /// Required designer variable.
@@ -28,62 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
+            flowLayoutPanel1 = new FlowLayoutPanel();
             button1 = new Button();
-            label1 = new Label();
-            richTextBox1 = new RichTextBox();
+            button2 = new Button();
             SuspendLayout();
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.BackColor = SystemColors.ControlDark;
+            flowLayoutPanel1.Location = new Point(0, 178);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(639, 354);
+            flowLayoutPanel1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(329, 80);
+            button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 0;
-            button1.Text = "Ok";
+            button1.Size = new Size(86, 23);
+            button1.TabIndex = 1;
+            button1.Text = "New Project";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // label1
+            // button2
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(35, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Label";
+            button2.Location = new Point(104, 12);
+            button2.Name = "button2";
+            button2.Size = new Size(84, 23);
+            button2.TabIndex = 2;
+            button2.Text = "Open Project";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(12, 80);
-            richTextBox1.Multiline = false;
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
-            richTextBox1.Size = new Size(311, 21);
-            richTextBox1.TabIndex = 2;
-            richTextBox1.Text = "";
-            // 
-            // InputBox
+            // Loader
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(416, 115);
-            Controls.Add(richTextBox1);
-            Controls.Add(label1);
+            ClientSize = new Size(630, 533);
+            Controls.Add(button2);
             Controls.Add(button1);
+            Controls.Add(flowLayoutPanel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "InputBox";
+            Name = "Loader";
             ShowIcon = false;
             ShowInTaskbar = false;
-            Text = "InputBox";
-            FormClosing += InputBox_FormClosing;
+            Text = "ULE Project manager";
+            Load += Loader_Load;
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
+        private FlowLayoutPanel flowLayoutPanel1;
         private Button button1;
-        private Label label1;
-        private RichTextBox richTextBox1;
+        private Button button2;
     }
 }

@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 using ULE.editor;
 using ULE.utils;
-using ULE.utils.level;
+
 using static ULE.utils.Math;
 using ED = ULE.editor.EditorData;
 using LA = ULE.editor.Layers;
@@ -17,6 +17,7 @@ namespace ULE
         public static ManageLayers managelayers;
         public static FResources fresources;
         public static FMacros macros;
+        public static FFile fFile;
 
         DateTime lastPlaceTime = DateTime.MinValue;
         DateTime lastDeleteTime = DateTime.MinValue;
@@ -49,7 +50,7 @@ namespace ULE
             if (EditorData.settings.previewmode)
             {
                 int y = 2;
-                foreach (var item in LevelData.level.Grid)
+                foreach (var item in LevelData.current.level.Grid)
                 {
                     Label label1 = new Label();
                     label1.Location = new Point(3, 20 * y);
@@ -71,7 +72,7 @@ namespace ULE
                     button2.Location = new Point(label1.Width + button1.Width, 20 * y);
                     button2.Click += (s, e) =>
                     {
-                        LevelData.level.Grid.Remove(item);
+                        LevelData.current.level.Grid.Remove(item);
                         InitSideBar();
                         pictureBox1.Invalidate();
                     };
@@ -84,7 +85,7 @@ namespace ULE
                     flowLayoutPanel1.SetFlowBreak(button2, true);
                     y = y + 1;
                 }
-                foreach (var item in LevelData.level.Objarr)
+                foreach (var item in LevelData.current.level.Objarr)
                 {
                     Label label1 = new Label();
                     label1.Location = new Point(3, 20 * y);
@@ -106,7 +107,7 @@ namespace ULE
                     button2.Location = new Point(label1.Width + button1.Width, 20 * y);
                     button2.Click += (s, e) =>
                     {
-                        LevelData.level.Objarr.Remove(item);
+                        LevelData.current.level.Objarr.Remove(item);
                         InitSideBar();
                         pictureBox1.Invalidate();
                     };
@@ -124,7 +125,7 @@ namespace ULE
             {
                 int y = 2;
                 int a = EditorData.settings.selectedlayer.Zlayer;
-                foreach (var item in LevelData.level.Grid)
+                foreach (var item in LevelData.current.level.Grid)
                 {
                     if (item.layer == a)
                     {
@@ -148,7 +149,7 @@ namespace ULE
                         button2.Location = new Point(label1.Width + button1.Width, 20 * y);
                         button2.Click += (s, e) =>
                         {
-                            LevelData.level.Grid.Remove(item);
+                            LevelData.current.level.Grid.Remove(item);
                             InitSideBar();
                             pictureBox1.Invalidate();
                         };
@@ -162,7 +163,7 @@ namespace ULE
                         y = y + 1;
                     }
                 }
-                foreach (var item in LevelData.level.Objarr)
+                foreach (var item in LevelData.current.level.Objarr)
                 {
                     if (item.layer == a)
                     {
@@ -186,7 +187,7 @@ namespace ULE
                         button2.Location = new Point(label1.Width + button1.Width, 20 * y);
                         button2.Click += (s, e) =>
                         {
-                            LevelData.level.Objarr.Remove(item);
+                            LevelData.current.level.Objarr.Remove(item);
                             InitSideBar();
                             pictureBox1.Invalidate();
                         };
@@ -218,7 +219,7 @@ namespace ULE
                 worldX = (worldX / grid) * grid;
                 worldY = (worldY / grid) * grid;
 
-                if (LevelData.level.Grid.Any(g =>
+                if (LevelData.current.level.Grid.Any(g =>
                     g.position.X == worldX &&
                     g.position.Y == worldY &&
                     g.layer == ED.settings.selectedlayer.Zlayer))
@@ -232,11 +233,11 @@ namespace ULE
                     size = new Vector2I(grid, grid)
                 };
 
-                LevelData.level.Grid.Add(tile);
+                LevelData.current.level.Grid.Add(tile);
             }
             else
             {
-                if (LevelData.level.Objarr.Any(o =>
+                if (LevelData.current.level.Objarr.Any(o =>
                     (int)o.position.X == worldX &&
                     (int)o.position.Y == worldY &&
                     o.layer == ED.settings.selectedlayer.Zlayer))
@@ -250,7 +251,7 @@ namespace ULE
                     size = new Vector2(grid, grid)
                 };
 
-                LevelData.level.Objarr.Add(obj);
+                LevelData.current.level.Objarr.Add(obj);
             }
             InitSideBar();
         }
@@ -261,7 +262,7 @@ namespace ULE
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.WrapContents = false;
 
-            this.Text = "ULE - Universal Level Editor v" + AppData.version;
+            this.Text = "ULE - Universal Level Editor v" + Consts.version;
             this.pictureBox1.Focus();
 
             Layer defaultlayer = new Layer();
@@ -282,7 +283,11 @@ namespace ULE
 
             EditorData.settings.selectedlayer = LA.LayerList[0];
 
+            ImportSave.Try2ImportSave();
             InitSideBar();
+
+            this.Invalidate();
+            this.Update();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -312,7 +317,7 @@ namespace ULE
                 g.DrawLine(pen, 0, screenY, pictureBox1.Width, screenY);
             }
 
-            foreach (var tile in LevelData.level.Grid)
+            foreach (var tile in LevelData.current.level.Grid)
             {
                 var layer = LA.LayerList.FirstOrDefault(l => l.Zlayer == tile.layer);
                 if (layer == null || !layer.Visible) continue;
@@ -336,7 +341,7 @@ namespace ULE
                 }
             }
 
-            foreach (var obj in LevelData.level.Objarr)
+            foreach (var obj in LevelData.current.level.Objarr)
             {
                 var layer = LA.LayerList.FirstOrDefault(l => l.Zlayer == obj.layer);
                 if (layer == null || !layer.Visible) continue;
@@ -412,7 +417,8 @@ namespace ULE
         private void FileOutput_Click(object sender, EventArgs e)
         {
             logger.Log("File clicked");
-            throw new NotImplementedException();
+            FFile file = new FFile();
+            file.Show();
         }
 
         private void Settings_Click(object sender, EventArgs e)
@@ -467,7 +473,7 @@ namespace ULE
 
             if (ED.settings.snaptoGrid)
             {
-                var candidates = LevelData.level.Grid
+                var candidates = LevelData.current.level.Grid
                     .Where(g =>
                         g.layer == ED.settings.selectedlayer.Zlayer &&
                         worldX >= g.position.X &&
@@ -489,12 +495,12 @@ namespace ULE
                         })
                         .First();
 
-                    LevelData.level.Grid.Remove(closest);
+                    LevelData.current.level.Grid.Remove(closest);
                 }
             }
             else
             {
-                var candidates = LevelData.level.Objarr
+                var candidates = LevelData.current.level.Objarr
                     .Where(o =>
                         o.layer == ED.settings.selectedlayer.Zlayer &&
                         worldX >= o.position.X &&
@@ -516,7 +522,7 @@ namespace ULE
                         })
                         .First();
 
-                    LevelData.level.Objarr.Remove(closest);
+                    LevelData.current.level.Objarr.Remove(closest);
                 }
             }
             InitSideBar();
@@ -604,6 +610,11 @@ namespace ULE
         private void timer4_Tick(object sender, EventArgs e)
         {
             InitSideBar();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }
