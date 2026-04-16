@@ -47,6 +47,7 @@
             checkBox3 = new CheckBox();
             timer4 = new System.Windows.Forms.Timer(components);
             checkBox4 = new CheckBox();
+            timer5 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -201,12 +202,6 @@
             checkBox3.UseVisualStyleBackColor = true;
             checkBox3.CheckedChanged += checkBox3_CheckedChanged;
             // 
-            // timer4
-            // 
-            timer4.Enabled = true;
-            timer4.Interval = 2500;
-            timer4.Tick += timer4_Tick;
-            // 
             // checkBox4
             // 
             checkBox4.AutoSize = true;
@@ -216,6 +211,12 @@
             checkBox4.TabIndex = 14;
             checkBox4.Text = "Drag";
             checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // timer5
+            // 
+            timer5.Enabled = true;
+            timer5.Interval = 30000;
+            timer5.Tick += timer5_Tick;
             // 
             // Form1
             // 
@@ -267,5 +268,6 @@
         private CheckBox checkBox3;
         private System.Windows.Forms.Timer timer4;
         private CheckBox checkBox4;
+        private System.Windows.Forms.Timer timer5;
     }
 }

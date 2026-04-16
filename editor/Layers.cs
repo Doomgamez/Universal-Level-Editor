@@ -13,7 +13,6 @@ namespace ULE.editor
         public int GridSize { get; set; }
 
         public bool navmeshsurface = false;
-
         public bool enablecollisions = false;
 
         public void UpdateCombobox(ComboBox comboBox)

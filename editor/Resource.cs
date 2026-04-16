@@ -18,13 +18,13 @@ namespace ULE.editor
         public ResourceType Type { get; set; }
         [JsonIgnore]
         public Bitmap Texture { get; set; }
-        public string Path { get; set; }
-        public Resource(string name, ResourceType type, string path,Bitmap Texture)
+        ///public string Path { get; set; }
+        public int id { get; set; }
+        public Resource(ResourceType type,Bitmap Texture,int id)
         {
-            this.Name = name;
             this.Type = type;
-            this.Path = path;
             this.Texture = Texture;
+            this.id = id;
         }
     }
     public static class ResourceClass

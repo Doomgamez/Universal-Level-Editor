@@ -30,11 +30,12 @@
         {
             button1 = new Button();
             button2 = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(18, 16);
+            button1.Location = new Point(94, 324);
             button1.Name = "button1";
             button1.Size = new Size(70, 27);
             button1.TabIndex = 0;
@@ -44,30 +45,44 @@
             // 
             // button2
             // 
-            button2.Location = new Point(18, 228);
+            button2.Location = new Point(18, 324);
             button2.Name = "button2";
             button2.Size = new Size(70, 27);
             button2.TabIndex = 1;
             button2.Text = "Export";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 2;
+            label1.Text = "label1";
             // 
             // FFile
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(393, 280);
+            ClientSize = new Size(456, 363);
+            Controls.Add(label1);
             Controls.Add(button2);
             Controls.Add(button1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "FFile";
             Text = "ULE - file export";
+            Load += FFile_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button button1;
         private Button button2;
+        private Label label1;
     }
 }

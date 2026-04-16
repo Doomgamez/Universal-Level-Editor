@@ -607,14 +607,14 @@ namespace ULE
             ED.settings.snaptoGrid = checkBox3.Checked;
         }
 
-        private void timer4_Tick(object sender, EventArgs e)
-        {
-            InitSideBar();
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void timer5_Tick(object sender, EventArgs e)
+        {
+            FFile.SaveNow();
         }
     }
 }

@@ -11,19 +11,19 @@ namespace ULE.editor
 {
     public class Json
     {
-        public class Resources
+        public class OutputResource
         {
             public int id { get; set; }
             public string path { get; set; }
 
-            public Resources(int id, string path)
+            public OutputResource(int id, string path)
             {
                 this.id = id;
                 this.path = path;
             }
         }
 
-        public List<Resources> res { get; set; } = new();
+        public List<OutputResource> res { get; set; } = new();
 
         public class Items
         {
@@ -53,7 +53,7 @@ namespace ULE.editor
 
                 foreach (var item in Awesomefuckingbuttfuck.res)
                 {
-                    ResourceClass.ResourceList.Add(new Resource(Path.Combine(Consts.GetProjFolder(), Path.GetFileName(item.path)), ResourceType.Texture, item.path, (Bitmap)Bitmap.FromFile(Path.Combine(Consts.GetProjFolder(), item.path))));
+                    ResourceClass.ResourceList.Add(new Resource(ResourceType.Texture, (Bitmap)Bitmap.FromFile(Path.Combine(Consts.GetProjFolder(), item.path)), item.id));
                 }
 
                 foreach (var obj in LevelData.current.level.Objarr)
@@ -61,7 +61,7 @@ namespace ULE.editor
                     if (obj.resource == null) continue;
 
                     var match = ResourceClass.ResourceList
-                        .FirstOrDefault(r => Path.GetFileName(r.Path) == Path.GetFileName(obj.resource.Path));
+                        .FirstOrDefault(r => r.id == obj.resource.id);
 
                     if (match != null)
                         obj.resource = match;
@@ -72,12 +72,13 @@ namespace ULE.editor
                     if (tile.resource == null) continue;
 
                     var match = ResourceClass.ResourceList
-                        .FirstOrDefault(r => Path.GetFileName(r.Path) == Path.GetFileName(tile.resource.Path));
+                        .FirstOrDefault(r => r.id == tile.resource.id);
 
                     if (match != null)
                         tile.resource = match;
                 }
             }
+            catch (FileNotFoundException) { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);

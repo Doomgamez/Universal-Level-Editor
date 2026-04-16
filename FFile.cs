@@ -20,7 +20,7 @@ namespace ULE
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public static void SaveNow()
         {
             Json a = new Json();
             a.items.layers = Layers.LayerList;
@@ -29,7 +29,7 @@ namespace ULE
             int i = 1;
             foreach (var item in ResourceClass.ResourceList)
             {
-                a.res.Add(new Json.Resources(i, Path.GetFileName(item.Path)));
+                a.res.Add(new Json.OutputResource(i, Path.GetFileName(item.Name)));
                 i = i + 1;
             }
             JsonSerializer serializer = new JsonSerializer();
@@ -49,6 +49,23 @@ namespace ULE
                     }
                 });
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveNow();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FFile_Load(object sender, EventArgs e)
+        {
+            label1.Text = "Project Directory : " + Consts.GetProjFolder();
+            label1.Font = new Font("Arial", 8);
+            label1.AutoEllipsis = true;
         }
     }
 }
