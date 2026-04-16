@@ -609,6 +609,11 @@ namespace ULE
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            DialogResult dr = MessageBox.Show("Do you want to save your changes?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dr == DialogResult.Yes)
+            {
+                FFile.SaveNow();
+            }
             Environment.Exit(0);
         }
 
