@@ -34,7 +34,8 @@ namespace ULE
             foreach (var item in ResourceClass.ResourceList)
             {
                 Label path = new Label();
-                path.Text = item.Name;
+                ResourceClass.awesomedick.TryGetValue(item.id, out string str);
+                path.Text = str;
                 path.AutoSize = true;
                 path.Location = new Point(0, y * 30);
 
@@ -44,6 +45,7 @@ namespace ULE
                 deleteButton.Location = new Point(path.Width, y * 30);
                 deleteButton.Click += (s, e) =>
                 {
+                    ResourceClass.awesomedick.Remove(item.id);
                     ResourceClass.ResourceList.Remove(item);
                     item.Texture.Dispose();
                     UpdateList();
@@ -55,9 +57,10 @@ namespace ULE
                 Showbutton.Location = new Point(path.Width + deleteButton.Width, y * 30);
                 Showbutton.Click += (s, e) =>
                 {
+                    ResourceClass.awesomedick.TryGetValue(item.id, out string str);
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                     {
-                        FileName = item.Name,
+                        FileName = str,
                         UseShellExecute = true
                     });
                 };
@@ -70,7 +73,8 @@ namespace ULE
                 {
                     Resource res = new Resource(item.Type, item.Texture, item.id);
                     EditorData.settings.selectedresource = res;
-                    Form1.logger.Log("Selected resource: " + res.Name);
+                    ResourceClass.awesomedick.TryGetValue(item.id,out string str);
+                    Form1.logger.Log("Selected resource: " + str);
                 };
 
                 flowLayoutPanel1.Controls.Add(path);
@@ -98,6 +102,7 @@ namespace ULE
                     Resource res = new Resource(ResourceType.Texture, bitmap, nextid);
                     res.Texture = bitmap;
                     ResourceClass.ResourceList.Add(res);
+                    ResourceClass.awesomedick.Add(nextid, Path.Combine(Consts.GetProjFolder(), Path.GetFileName(openFileDialog.FileName)));
                     nextid = nextid + 1;
                 }
                 catch (Exception ex)

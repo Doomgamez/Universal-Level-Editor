@@ -60,6 +60,8 @@ namespace ULE
                     {
                         Layers.LayerList.Remove(item);
                         UpdateLayerList();
+                        var form = Application.OpenForms.OfType<Form1>().FirstOrDefault();
+                        form.UpdateCombobox();
                         Form1.logger.Log($"layer removed {item.Zlayer}");
                     }
                 };
@@ -87,14 +89,28 @@ namespace ULE
 
         private void newlayer_Click(object sender, EventArgs e)
         {
+            if (Layers.LayerList.Any(l => l.Zlayer == zlayer))
+            {
+                MessageBox.Show("Please change the selected Zlayer (duplicates cause data corruption)","",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
             Layer layer = new Layer();
             layer.GridSize = gridsize;
             layer.Zlayer = zlayer;
             layer.enablecollisions = checkBox1.Checked;
             layer.navmeshsurface = checkBox2.Checked;
+
             Layers.LayerList.Add(layer);
+
+            EditorData.settings.selectedlayer = layer;
+
             Form1.logger.Log($"Layer {layer.Zlayer} added");
+
             UpdateLayerList();
+
+            var form = Application.OpenForms.OfType<Form1>().FirstOrDefault();
+            form.UpdateCombobox();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -111,6 +127,7 @@ namespace ULE
             {
                 gridsize = result;
             }
+            
             inputBox.Dispose();
             UpdateData();
             Form1.logger.Log("Grid Size updated");

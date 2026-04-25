@@ -29,7 +29,8 @@ namespace ULE
             int i = 1;
             foreach (var item in ResourceClass.ResourceList)
             {
-                a.res.Add(new Json.OutputResource(i, Path.GetFileName(item.Name)));
+                ResourceClass.awesomedick.TryGetValue(item.id,out string str);
+                a.res.Add(new Json.OutputResource(i, Path.GetFileName(str)));
                 i = i + 1;
             }
             JsonSerializer serializer = new JsonSerializer();

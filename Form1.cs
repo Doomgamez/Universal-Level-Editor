@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using ULE.editor;
 using ULE.utils;
 
@@ -39,6 +39,7 @@ namespace ULE
         void InitSideBar()
         {
             flowLayoutPanel1.Controls.Clear();
+            flowLayoutPanel1.Refresh();
             Label label = new Label();
             label.Location = new Point(3, 20);
             label.Font = new Font("Segoe UI", 16);
@@ -256,6 +257,27 @@ namespace ULE
             InitSideBar();
         }
 
+        public void UpdateCombobox()
+        {
+            int selectedIndex = LA.LayerList.IndexOf(EditorData.settings.selectedlayer);
+
+            comboBox1.BeginUpdate();
+
+            comboBox1.Items.Clear();
+
+            foreach (var layer in LA.LayerList)
+            {
+                comboBox1.Items.Add("Layer " + layer.Zlayer);
+            }
+
+            if (selectedIndex >= 0 && selectedIndex < comboBox1.Items.Count)
+            {
+                comboBox1.SelectedIndex = selectedIndex;
+            }
+
+            comboBox1.EndUpdate();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             flowLayoutPanel1.AutoScroll = true;
@@ -273,23 +295,26 @@ namespace ULE
 
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            LA.LayerList.Add(defaultlayer);
+            ImportSave.Try2ImportSave();
 
-            LA.LayerList.Sort((a, b) => a.Zlayer.CompareTo(b.Zlayer));
+            if (LA.LayerList.Count < 1)
+            {
+                LA.LayerList.Add(defaultlayer);
 
-            defaultlayer.UpdateCombobox(comboBox1);
+                LA.LayerList.Sort((a, b) => a.Zlayer.CompareTo(b.Zlayer));
+            }
+
+            UpdateCombobox();
 
             comboBox1.SelectedIndex = 0;
 
             EditorData.settings.selectedlayer = LA.LayerList[0];
 
-            ImportSave.Try2ImportSave();
             InitSideBar();
 
             this.Invalidate();
             this.Update();
         }
-
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -320,55 +345,121 @@ namespace ULE
             foreach (var tile in LevelData.current.level.Grid)
             {
                 var layer = LA.LayerList.FirstOrDefault(l => l.Zlayer == tile.layer);
-                if (layer == null || !layer.Visible) continue;
+                if (layer == null) continue;
+
+                if (!ED.settings.previewmode)
+                {
+                    if (layer.Zlayer != ED.settings.selectedlayer.Zlayer)
+                        continue;
+                }
+                else
+                {
+                    if (!layer.Visible)
+                        continue;
+                }
 
                 int screenX = tile.position.X - ED.state.offset.X;
                 int screenY = tile.position.Y - ED.state.offset.Y;
 
+                int drawGrid = layer.GridSize <= 0 ? 32 : layer.GridSize;
+
+                float alpha = (ED.settings.previewmode && layer.Zlayer != ED.settings.selectedlayer.Zlayer) ? 0.3f : 1f;
+
                 if (tile.resource?.Texture != null)
                 {
-                    g.DrawImage(
-                        tile.resource.Texture,
-                        screenX,
-                        screenY,
-                        grid,
-                        grid
-                    );
+                    if (alpha < 1f)
+                    {
+                        var ia = new System.Drawing.Imaging.ImageAttributes();
+                        var cm = new System.Drawing.Imaging.ColorMatrix();
+                        cm.Matrix33 = alpha;
+                        ia.SetColorMatrix(cm);
+
+                        g.DrawImage(
+                            tile.resource.Texture,
+                            new Rectangle(screenX, screenY, drawGrid, drawGrid),
+                            0, 0,
+                            tile.resource.Texture.Width,
+                            tile.resource.Texture.Height,
+                            GraphicsUnit.Pixel,
+                            ia
+                        );
+                    }
+                    else
+                    {
+                        g.DrawImage(tile.resource.Texture, screenX, screenY, drawGrid, drawGrid);
+                    }
                 }
                 else
                 {
-                    g.FillRectangle(Brushes.Blue, screenX, screenY, grid, grid);
+                    using (var brush = new SolidBrush(Color.FromArgb((int)(alpha * 255), Color.Blue)))
+                    {
+                        g.FillRectangle(brush, screenX, screenY, drawGrid, drawGrid);
+                    }
                 }
             }
 
             foreach (var obj in LevelData.current.level.Objarr)
             {
                 var layer = LA.LayerList.FirstOrDefault(l => l.Zlayer == obj.layer);
-                if (layer == null || !layer.Visible) continue;
+                if (layer == null) continue;
+
+                if (!ED.settings.previewmode)
+                {
+                    if (layer.Zlayer != ED.settings.selectedlayer.Zlayer)
+                        continue;
+                }
+                else
+                {
+                    if (!layer.Visible)
+                        continue;
+                }
 
                 int screenX = (int)obj.position.X - ED.state.offset.X;
                 int screenY = (int)obj.position.Y - ED.state.offset.Y;
 
+                int drawGrid = layer.GridSize <= 0 ? 32 : layer.GridSize;
+
+                float alpha = (ED.settings.previewmode && layer.Zlayer != ED.settings.selectedlayer.Zlayer) ? 0.3f : 1f;
+
                 if (obj.resource?.Texture != null)
                 {
-                    g.DrawImage(
-                        obj.resource.Texture,
-                        screenX,
-                        screenY,
-                        grid,
-                        grid
-                    );
+                    if (alpha < 1f)
+                    {
+                        var ia = new System.Drawing.Imaging.ImageAttributes();
+                        var cm = new System.Drawing.Imaging.ColorMatrix();
+                        cm.Matrix33 = alpha;
+                        ia.SetColorMatrix(cm);
+
+                        g.DrawImage(
+                            obj.resource.Texture,
+                            new Rectangle(screenX, screenY, drawGrid, drawGrid),
+                            0, 0,
+                            obj.resource.Texture.Width,
+                            obj.resource.Texture.Height,
+                            GraphicsUnit.Pixel,
+                            ia
+                        );
+                    }
+                    else
+                    {
+                        g.DrawImage(obj.resource.Texture, screenX, screenY, drawGrid, drawGrid);
+                    }
                 }
                 else
                 {
-                    g.FillRectangle(Brushes.Magenta, screenX, screenY, grid, grid);
+                    using (var brush = new SolidBrush(Color.FromArgb((int)(alpha * 255), Color.Magenta)))
+                    {
+                        g.FillRectangle(brush, screenX, screenY, drawGrid, drawGrid);
+                    }
                 }
             }
 
             if (ED.state.debug)
             {
                 g.DrawString(
-                    ED.state.offset.X + "," + ED.state.offset.Y + " : " + ED.state.focused() + " : " + EditorData.settings.selectedlayer.Zlayer,
+                    ED.state.offset.X + "," + ED.state.offset.Y + " : " +
+                    ED.state.focused() + " : " +
+                    ED.settings.selectedlayer.Zlayer,
                     new Font("Arial", 16),
                     Brushes.Black,
                     0,
@@ -384,6 +475,10 @@ namespace ULE
 
         private void timer2_Tick(object sender, EventArgs e)
         {
+            if ((GetAsyncKeyState((int)Keys.Tab) & 0x8000) != 0)
+            {
+                pictureBox1.Focus();
+            }
             if (!pictureBox1.Focused) { return; }
             if ((GetAsyncKeyState((int)Keys.W) & 0x8000) != 0)
             {
@@ -583,6 +678,7 @@ namespace ULE
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             EditorData.settings.selectedlayer = LA.LayerList[comboBox1.SelectedIndex];
+            InitSideBar();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -595,6 +691,8 @@ namespace ULE
         {
             logger.Log($"Global Preview value changed {checkBox2.Checked}");
             ED.settings.previewmode = checkBox2.Checked;
+            InitSideBar();
+            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
